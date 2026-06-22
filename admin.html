@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+background:#f4f4f4;
+}
+
+.card{
+
+background:white;
+padding:20px;
+border-radius:12px;
+max-width:500px;
+margin:auto;
+
+}
+
+select{
+
+width:100%;
+padding:10px;
+margin-bottom:10px;
+
+}
+
+button{
+
+width:100%;
+padding:12px;
+background:#0d5b4c;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Pemberian Pingat</h2>
+
+<select id="pasukan">
+
+<option value="1">KOTA KINABALU</option>
+<option value="2">KENINGAU</option>
+<option value="3">SANDAKAN</option>
+<option value="4">TAWAU</option>
+<option value="5">KUDAT</option>
+<option value="6">BEAUFORT</option>
+<option value="7">INSTITUSI</option>
+<option value="8">HQ</option>
+
+</select>
+
+<select id="medal">
+
+<option value="emas">🥇 Emas</option>
+<option value="perak">🥈 Perak</option>
+<option value="gangsa">🥉 Gangsa</option>
+
+</select>
+
+<button onclick="beriPingat()">
+
+Tambah Pingat
+
+</button>
+
+</div>
+
+<script>
+
+const API_URL =
+"PASTE_URL_APPS_SCRIPT";
+
+async function beriPingat(){
+
+const id =
+document.getElementById("pasukan").value;
+
+const medal =
+document.getElementById("medal").value;
+
+await fetch(API_URL,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+id:id,
+medal:medal
+
+})
+
+});
+
+alert("Pingat berjaya dikemaskini");
+
+}
+
+</script>
+
+</body>
+
+</html>
