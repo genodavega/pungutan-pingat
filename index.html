@@ -1,61 +1,73 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta charset="utf-8">
+
+<title>Carta Pingat</title>
 
 <style>
 
 body{
 font-family:Arial;
 background:#f5f7fa;
-margin:20px;
+padding:20px;
 }
 
 .header{
-background:#0d5b4c;
+
+background:#0f5d4d;
+
 padding:25px;
+
 border-radius:15px;
+
 color:white;
-}
 
-.cards{
-display:flex;
-gap:15px;
-margin-top:20px;
-}
-
-.card{
-background:white;
-padding:15px;
-border-radius:10px;
-box-shadow:0 0 5px #ddd;
-flex:1;
 }
 
 table{
+
 width:100%;
-margin-top:20px;
-border-collapse:collapse;
+
 background:white;
+
+margin-top:20px;
+
+border-collapse:collapse;
+
 }
 
 th{
-background:#0d5b4c;
+
+background:#0f5d4d;
+
 color:white;
-padding:10px;
+
+padding:12px;
+
 }
 
 td{
-padding:10px;
+
+padding:12px;
+
 text-align:center;
-border-bottom:1px solid #eee;
+
+border-bottom:1px solid #ddd;
+
 }
 
-.gold{
-color:#e4b200;
-font-weight:bold;
+.rank1{
+background:#fff9d6;
+}
+
+.rank2{
+background:#f0f0f0;
+}
+
+.rank3{
+background:#ffe4cc;
 }
 
 </style>
@@ -66,31 +78,9 @@ font-weight:bold;
 
 <div class="header">
 
-<h1>Carta Kedudukan Pingat Kejohanan</h1>
-
-</div>
-
-<div class="cards">
-
-<div class="card">
-Pendahulu
-<h2 id="leader">-</h2>
-</div>
-
-<div class="card">
-Jumlah Emas
-<h2 id="totalEmas">0</h2>
-</div>
-
-<div class="card">
-Jumlah Perak
-<h2 id="totalPerak">0</h2>
-</div>
-
-<div class="card">
-Jumlah Gangsa
-<h2 id="totalGangsa">0</h2>
-</div>
+<h1>
+Carta Kedudukan Pingat MAKSUR 2026
+</h1>
 
 </div>
 
@@ -100,12 +90,11 @@ Jumlah Gangsa
 
 <tr>
 
-<th>Rank</th>
+<th>Kedudukan</th>
 <th>Pasukan</th>
 <th>🥇</th>
 <th>🥈</th>
 <th>🥉</th>
-<th>Mata</th>
 
 </tr>
 
@@ -122,7 +111,7 @@ Jumlah Gangsa
 const API_URL =
 "https://script.google.com/macros/s/AKfycbyLqA8fE6_hz8X-XfrE6RHc7uQiviEhtYVPVND2_QyGdM0kU8b15XYigozcFDdhYM2r6A/exec";
 
-async function loadData(){
+async function loadRanking(){
 
 const res =
 await fetch(API_URL);
@@ -132,26 +121,32 @@ await res.json();
 
 let html="";
 
-let totalEmas=0;
-let totalPerak=0;
-let totalGangsa=0;
-
 data.forEach((team,index)=>{
 
-totalEmas+=team.emas;
-totalPerak+=team.perak;
-totalGangsa+=team.gangsa;
+let cls="";
 
-html+=`
+if(index==0)
+cls="rank1";
 
-<tr>
+if(index==1)
+cls="rank2";
+
+if(index==2)
+cls="rank3";
+
+html += `
+
+<tr class="${cls}">
 
 <td>${index+1}</td>
+
 <td>${team.pasukan}</td>
+
 <td>${team.emas}</td>
+
 <td>${team.perak}</td>
+
 <td>${team.gangsa}</td>
-<td>${team.mata}</td>
 
 </tr>
 
@@ -159,28 +154,20 @@ html+=`
 
 });
 
-document.getElementById("ranking").innerHTML=html;
-
-document.getElementById("leader").innerText=
-data[0].pasukan;
-
-document.getElementById("totalEmas").innerText=
-totalEmas;
-
-document.getElementById("totalPerak").innerText=
-totalPerak;
-
-document.getElementById("totalGangsa").innerText=
-totalGangsa;
+document
+.getElementById("ranking")
+.innerHTML=html;
 
 }
 
-loadData();
+loadRanking();
 
-setInterval(loadData,5000);
+setInterval(
+loadRanking,
+5000
+);
 
 </script>
 
 </body>
-
 </html>

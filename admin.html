@@ -1,46 +1,70 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta charset="utf-8">
+
+<title>Admin Pingat</title>
 
 <style>
 
 body{
 font-family:Arial;
-padding:20px;
-background:#f4f4f4;
+background:#f3f5f7;
+padding:30px;
 }
 
 .card{
 
-background:white;
-padding:20px;
-border-radius:12px;
-max-width:500px;
+max-width:700px;
 margin:auto;
 
+background:white;
+
+padding:25px;
+
+border-radius:15px;
+
+box-shadow:0 0 15px rgba(0,0,0,.1);
+
+}
+
+h2{
+margin-top:0;
 }
 
 select{
 
 width:100%;
-padding:10px;
-margin-bottom:10px;
+
+padding:12px;
+
+margin-bottom:15px;
 
 }
 
 button{
 
 width:100%;
-padding:12px;
-background:#0d5b4c;
+
+padding:15px;
+
+background:#0f5d4d;
+
 color:white;
+
 border:none;
+
+font-size:16px;
+
 border-radius:8px;
+
 cursor:pointer;
 
+}
+
+button:hover{
+opacity:.9;
 }
 
 </style>
@@ -53,31 +77,20 @@ cursor:pointer;
 
 <h2>Pemberian Pingat</h2>
 
-<select id="pasukan">
+<label>Sukan</label>
+<select id="sukan"></select>
 
-<option value="1">KOTA KINABALU</option>
-<option value="2">KENINGAU</option>
-<option value="3">SANDAKAN</option>
-<option value="4">TAWAU</option>
-<option value="5">KUDAT</option>
-<option value="6">BEAUFORT</option>
-<option value="7">INSTITUSI</option>
-<option value="8">HQ</option>
+<label>Pemenang Emas</label>
+<select id="emas"></select>
 
-</select>
+<label>Pemenang Perak</label>
+<select id="perak"></select>
 
-<select id="medal">
+<label>Pemenang Gangsa</label>
+<select id="gangsa"></select>
 
-<option value="emas">🥇 Emas</option>
-<option value="perak">🥈 Perak</option>
-<option value="gangsa">🥉 Gangsa</option>
-
-</select>
-
-<button onclick="beriPingat()">
-
-Tambah Pingat
-
+<button onclick="simpanKeputusan()">
+ANUGERAH PINGAT
 </button>
 
 </div>
@@ -87,33 +100,88 @@ Tambah Pingat
 const API_URL =
 "https://script.google.com/macros/s/AKfycbyLqA8fE6_hz8X-XfrE6RHc7uQiviEhtYVPVND2_QyGdM0kU8b15XYigozcFDdhYM2r6A/exec";
 
-async function beriPingat(){
+async function loadSetup(){
 
-const id =
-document.getElementById("pasukan").value;
+const res =
+await fetch(API_URL+"?mode=setup");
 
-const medal =
-document.getElementById("medal").value;
+const data =
+await res.json();
+
+isiDropdown(
+"sukan",
+data.sukan
+);
+
+isiDropdown(
+"emas",
+data.pasukan
+);
+
+isiDropdown(
+"perak",
+data.pasukan
+);
+
+isiDropdown(
+"gangsa",
+data.pasukan
+);
+
+}
+
+function isiDropdown(id,list){
+
+let html="";
+
+list.forEach(item=>{
+
+html +=
+`<option>${item}</option>`;
+
+});
+
+document
+.getElementById(id)
+.innerHTML=html;
+
+}
+
+async function simpanKeputusan(){
+
+const payload = {
+
+sukan:
+document.getElementById("sukan").value,
+
+emas:
+document.getElementById("emas").value,
+
+perak:
+document.getElementById("perak").value,
+
+gangsa:
+document.getElementById("gangsa").value
+
+};
 
 await fetch(API_URL,{
 
 method:"POST",
 
-body:JSON.stringify({
-
-id:id,
-medal:medal
-
-})
+body:JSON.stringify(payload)
 
 });
 
-alert("Pingat berjaya dikemaskini");
+alert(
+"Keputusan berjaya disimpan"
+);
 
 }
+
+loadSetup();
 
 </script>
 
 </body>
-
 </html>
